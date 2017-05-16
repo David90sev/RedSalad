@@ -144,6 +144,7 @@ AUTHENTICATION_BACKENDS = (
         'social_core.backends.google.GoogleOAuth',
         'social_core.backends.facebook.FacebookAppOAuth2',
         'social_core.backends.facebook.FacebookOAuth2',
+        'social_core.backends.email.EmailAuth'
     )
 
 LOGIN_REDIRECT_URL = '/'
@@ -151,6 +152,14 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL='/'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1826481804282328'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'debe4a19bce01e658574d18248defea2'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email', 
+}
 
 GOOGLE_OAUTH2_CLIENT_ID = '97249802694-58ogqbepcklk2iur8kqgbg3ndc1jemrq.apps.googleusercontent.com'
 GOOGLE_OAUTH2_CLIENT_SECRET = 'HNV7jMXNvKElIUsNs1OoPXOu'
+
+SOCIAL_AUTH_EMAIL_FORM_URL = '/login-form/'
+SOCIAL_AUTH_EMAIL_FORM_HTML = 'login_form.html'
+

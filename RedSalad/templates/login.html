@@ -61,6 +61,7 @@
 				<div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset-desktop mdl-cell--2-offset-tablet">
 						
 						<div>
+							Login con Google +
 						  <a href="{% url 'social:begin' 'google-oauth2' %}">
 								<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
 						  			<img src="{% static "images/icons/googleplus.png" %}" height="32" width="32"/>
@@ -68,11 +69,15 @@
 						  </a>
 						</div>
 						<div>
+						Login con Facebook
 						<a href="{% url 'social:begin' 'facebook' %}">
 						 	    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
 						 	    	<img src="{% static "images/icons/facebook.png" %}" height="32" width="32"/>
 			   			   	  </button>
 						</a>
+						</div>
+						<div>
+							<a href="{% url 'social:begin' 'email' %}">email</a>
 						</div>
 						
 				</div>
