@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block content %}
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  Button
+</button>
+
+
+
+
+
+
+
+
+	{% if not user.is_authenticated %}
+	<a href="{% url 'social:begin' 'google-oauth2' %}">Google+</a>
+	<a href="{% url 'social:begin' 'facebook' %}">Facebook Login</a>
+	
+	{% else %}
+	
+		<h1>Bienvenido {{user}}</h1>
+		<a href="/salir">LogOut</a>
+	{% endif %}
+
+{% endblock %}
+	
