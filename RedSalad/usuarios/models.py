@@ -4,38 +4,6 @@ from django.db import models
 
 
 # Create your models here.
-
-  
-#class Productor(models.Model):
-class Productor(models.Model):
-    
-    
-    
-    
-    NIF = models.CharField(max_length=30)
-    telefono = models.CharField(max_length=30)
-    pais
-    ciudad
-    provincia = models.CharField(max_length=2, choices=PROVINCIAS)
-    codigo_postal
-    direccion
-    foto
-    fondo
-    
-    
-#class Cliente(models.Model):
-class Cliente(models.Model):
-    telefono = models.CharField(max_length=30)
-    pais
-    ciudad
-    provincia
-    codigo_postal
-    direccion
-    foto
-    fondo
-    
-#class Admin(models.Model):
-
 PROVINCIAS = (
     ('CO','A Coruña'),
     ('VI','Álava'),
@@ -88,6 +56,34 @@ PROVINCIAS = (
     ('ZA','Zamora'),
     ('ZR','Zaragoza'),
 )
+  
+#class Productor(models.Model):
+class Productor(models.Model): 
+    NIF = models.CharField(max_length=30)
+    telefono = models.CharField(max_length=15)
+    pais =models.CharField(max_length=20)
+    ciudad =models.CharField(max_length=30)
+    provincia = models.CharField(max_length=2, choices=PROVINCIAS)
+    codigo_postal =models.CharField(max_length=10)
+    direccion= models.CharField(max_length=30)
+    #foto
+    #fondo
+    
+    
+#class Cliente(models.Model):
+class Cliente(models.Model):
+    telefono = models.CharField(max_length=15)
+    pais=models.CharField(max_length=20)
+    ciudad=models.CharField(max_length=30)
+    provincia = models.CharField(max_length=2, choices=PROVINCIAS)
+    codigo_postal=models.CharField(max_length=10)
+    direccion=models.CharField(max_length=30)
+    #foto
+    #fondo
+    
+#class Admin(models.Model):
+
+
     
     
     
