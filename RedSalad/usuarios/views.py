@@ -6,6 +6,9 @@ from django.contrib.auth import logout
 class IndexView(TemplateView):
     template_name='index.html'
     
+class LoginViewL(TemplateView):
+    template_name='login.html'
+
 def LogOut(request):
     logout(request)
     return redirect("/")

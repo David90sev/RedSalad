@@ -16,12 +16,19 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 
-from usuarios.views import IndexView,LogOut
+from usuarios.views import IndexView,LogOut, LoginViewL
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include('social_django.urls', namespace='social')),
     url(r'^$', IndexView.as_view()),
+    url('', include('social_django.urls', namespace='social')),
+    url(r'iniciar$', LoginViewL.as_view()),
     url(r'salir$', LogOut),
     
 ]
+
+if settings.DEBUG:
+    urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

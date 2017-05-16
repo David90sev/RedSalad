@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from django.conf.global_settings import AUTHENTICATION_BACKENDS
+from django.conf.global_settings import AUTHENTICATION_BACKENDS, STATIC_ROOT,\
+    MEDIA_ROOT
 from django.template.defaultfilters import join
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -128,6 +129,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media")
 
 
 AUTHENTICATION_BACKENDS = (
