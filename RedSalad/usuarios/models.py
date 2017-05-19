@@ -1,27 +1,32 @@
+# -*- coding: utf-8 -*-
+    
 from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
+import os
+from django.db.models.fields.files import ImageField
+from tkinter.filedialog import dialogstates
 
 
 # Create your models here.
 PROVINCIAS = (
-    ('CO','A Coruña'),
-    ('VI','Álava'),
+    ('CO','A CoruÃ±a'),
+    ('VI','ï¿½lava'),
     ('AB','Albacete'),
     ('AL','Alicante'),
-    ('AM','Almería'),
+    ('AM','Almerï¿½a'),
     ('AS','Asturia'),
-    ('AV','Ávila'),
+    ('AV','ï¿½vila'),
     ('BA','Badajoz'),
     ('BL','Baleares'),
     ('BR','Barcelona'),
     ('BU','Burgos'),
-    ('CC','Cáceres'),
-    ('CA','Cádiz'),
+    ('CC','Cï¿½ceres'),
+    ('CA','Cï¿½diz'),
     ('CN','Cantabria'),
-    ('CS','Castellón'),
+    ('CS','Castellï¿½n'),
     ('CR','Ciudad Real'),
-    ('CO','Córdoba'),
+    ('CO','Cï¿½rdoba'),
     ('CU','Cuenca'),
     ('GI','Girona'),
     ('GR','Granada'),
@@ -29,14 +34,14 @@ PROVINCIAS = (
     ('SS','Gipuzkoa'),
     ('HU','Huelva'),
     ('HU','Huesca'),
-    ('JA','Jaén'),
+    ('JA','Jaï¿½n'),
     ('LO','La Rioja'),
     ('GC','Las Palmas'),
-    ('LE','León'),
+    ('LE','Leï¿½n'),
     ('LL','Lleida'),
     ('LU','Lugo'),
     ('MD','Madrid'),
-    ('MA','Málaga'),
+    ('MA','Mï¿½laga'),
     ('MU','Murcia'),
     ('NA','Navarra'),
     ('OR','Ourense'),
@@ -56,34 +61,85 @@ PROVINCIAS = (
     ('ZA','Zamora'),
     ('ZR','Zaragoza'),
 )
-  
-#class Productor(models.Model):
-class Productor(models.Model): 
-    NIF = models.CharField(max_length=30)
-    telefono = models.CharField(max_length=15)
-    pais =models.CharField(max_length=20)
-    ciudad =models.CharField(max_length=30)
-    provincia = models.CharField(max_length=2, choices=PROVINCIAS)
-    codigo_postal =models.CharField(max_length=10)
-    direccion= models.CharField(max_length=30)
-    #foto
-    #fondo
-    
-    
-#class Cliente(models.Model):
-class Cliente(models.Model):
+
+
+def get_image_path(instance, filename):
+    return os.path.join('fotos', str(instance.id), filename)
+
+# Usuario
+class Usuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #comentario_blog
+    #sender_m
+    receiver_m = models.ForeignKey('Mensaje', on_delete=models.CASCADE)
+    ###############################
     telefono = models.CharField(max_length=15)
     pais=models.CharField(max_length=20)
     ciudad=models.CharField(max_length=30)
     provincia = models.CharField(max_length=2, choices=PROVINCIAS)
     codigo_postal=models.CharField(max_length=10)
     direccion=models.CharField(max_length=30)
-    #foto
-    #fondo
+    foto=ImageField(upload_to=get_image_path, blank=True, null=True)
+    fondo=ImageField(upload_to=get_image_path, blank=True, null=True)
+    
+    def __str__(self):
+            return self.user.username+"-usuario-"
+      
+    
+#class Cliente(models.Model):
+class Cliente(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    #productor_seguido
+    #comentario_perfil
+    #comentario_producto
+    #carrito
+    ###################
+    
+    def __str__(self):              
+        return "cliente:"+self.usuario
+    
+#class Productor(models.Model):
+class Productor(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    #entrada_blog
+    #comentario_perfil
+    #catalogo
+    #punto_de_distribucion
+    seguidor = models.ForeignKey(Cliente)
+    bio = models.CharField(max_length=500)
+    
+    def __str__(self):              
+        return "productor:"+self.usuario
     
 #class Admin(models.Model):
-
-
+class Administrador(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    ############################
+    
+    def __str__(self):              
+        return "administrador:"+self.usuario
     
     
+class Mensaje(models.Model):
+    sender_m =  models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    #receiver_m
+    ############################
+    titulo = models.CharField(max_length=100)
+    cuerpo = models.CharField(max_length=1500)
+    fecha = models.DateTimeField()
+    visto = models.BooleanField()
+    
+    def __str__(self):              
+        return "mensaje de "+self.sender_m+" fecha:"+self.fecha
+    
+## Solo un cliente puede comentar el perfil de un productor
+class Comentario_perfil(models.Model):
+    productor = models.ForeignKey(Productor, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    ##############################
+    cuerpo = models.CharField(max_length=300)
+    fecha = models.DateTimeField()
+    
+    def __str__(self):              
+        return "comentario de perfil de "+self.cliente +"a "+self.productor
     
