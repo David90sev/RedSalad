@@ -71,7 +71,7 @@ class Usuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #comentario_blog
     #sender_m
-    receiver_m = models.ForeignKey('Mensaje', on_delete=models.CASCADE)
+    receiver_m = models.ForeignKey('Mensaje', on_delete=models.CASCADE, null=True, blank=True, default = None)
     ###############################
     telefono = models.CharField(max_length=15)
     pais=models.CharField(max_length=20)
@@ -86,9 +86,27 @@ class Usuario(models.Model):
             return self.user.username+"-usuario-"
       
     
+
+    
+#class Productor(models.Model):
+class Productor(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    #seguidor = models.ForeignKey(Cliente)
+    #entrada_blog
+    #comentario_perfil
+    #catalogo
+    #punto_de_distribucion
+    alias_empresa = models.CharField(max_length=60)
+    bio = models.CharField(max_length=500)
+    
+    def __str__(self):              
+        return "productor:"+self.usuario
+
+
 #class Cliente(models.Model):
 class Cliente(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    sigue = models.ManyToManyField(Productor)
     #productor_seguido
     #comentario_perfil
     #comentario_producto
@@ -97,20 +115,8 @@ class Cliente(models.Model):
     
     def __str__(self):              
         return "cliente:"+self.usuario
-    
-#class Productor(models.Model):
-class Productor(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    #entrada_blog
-    #comentario_perfil
-    #catalogo
-    #punto_de_distribucion
-    seguidor = models.ForeignKey(Cliente)
-    bio = models.CharField(max_length=500)
-    
-    def __str__(self):              
-        return "productor:"+self.usuario
-    
+
+
 #class Admin(models.Model):
 class Administrador(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -142,4 +148,24 @@ class Comentario_perfil(models.Model):
     
     def __str__(self):              
         return "comentario de perfil de "+self.cliente +"a "+self.productor
+    
+    
+    
+# Create your models here.
+class Entrada_Blog(models.Model):
+    productor = models.ForeignKey(Productor, on_delete=models.CASCADE)
+    #comentarios
+    ############################
+    titulo = models.CharField(max_length=100)
+    cuerpo = models.CharField(max_length=2500)
+    imagen = ImageField(upload_to=get_image_path, blank=True, null=True)
+    fecha = models.DateTimeField()
+
+class Comentario_blog(models.Model):
+    entrada_blog = models.ForeignKey(Entrada_Blog, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    ############################
+    cuerpo= models.CharField(max_length=150)
+    fecha = models.DateTimeField()
+    
     

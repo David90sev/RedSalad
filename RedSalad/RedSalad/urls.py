@@ -19,6 +19,7 @@ from django.contrib import admin
 from usuarios.views import IndexView,LogOut, LoginViewL
 from django.conf.urls.static import static
 from django.conf import settings
+import usuarios
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +29,24 @@ urlpatterns = [
     url(r'salir$', LogOut),
     
 ]
+
+#usuarios
+urlpatterns+= [
+    url(r'usuario/nuevoproductor$', usuarios.views.ProductorCrear_Usuario.as_view(), name='productor_crear_usuario'),
+    url(r'usuario/nuevoproductor/2$', usuarios.views.ProductorCrear_Productor.as_view(), name='productor_crear_productor'),
+
+    #url(r'usuario/nuevocliente', usuarios.views.nuevo_cliente, name='nuevo_cliente'),
+
+    url(r'usuario/miperfilproductor/(?P<pk>[0-9]+)/$', usuarios.views.PerfilProductorView.as_view(), name='productor_perfil'),
+    
+    
+    
+    ]
+
+
+
+
+
 
 if settings.DEBUG:
     urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

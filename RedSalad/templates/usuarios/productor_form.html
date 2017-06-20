@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block content %}
+<!-- Simple Textfield -->
+<div>
+	<form class="form" action="#" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+	  	{% include 'usuarios/fields_usuarios_form.html' %}
+	  	<div class="form_group">
+	  		<div>
+	  			<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Enviar</button>
+	  		</div>
+	  	</div>
+	</form>
+</div>
+
+{% endblock %}
+	
