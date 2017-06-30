@@ -71,7 +71,7 @@ class PerfilProductorView(DetailView):
         usuarioQ=Usuario.objects.filter(user=self.request.user)
         return Productor.objects.filter(usuario=usuarioQ)
     
-    
+
 
 class ProductorCrear_Usuario(CreateView):
     model = Usuario
@@ -86,7 +86,7 @@ class ProductorCrear_Usuario(CreateView):
         return redirect('/usuario/nuevoproductor/2')
 
 
-class SignupForm(forms.ModelForm):
+class ProductorForm(forms.ModelForm):
     class Meta:
         model = Productor
         fields = ['alias_empresa','bio']
@@ -96,7 +96,7 @@ class SignupForm(forms.ModelForm):
 
 class ProductorCrear_Productor(CreateView):
     model = Productor
-    form_class=SignupForm
+    form_class=ProductorForm
 #    fields = ['alias_empresa','bio']
     success_url = '/thanks/'
     
@@ -122,3 +122,47 @@ class ProductorView(FormView):
     
 
     
+class PerfilClienteView(DetailView):
+    context_object_name = 'cliente_perfil'
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(PerfilClienteView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        usuarioQ=Usuario.objects.filter(user=self.request.user)
+        return Cliente.objects.filter(usuario=usuarioQ)
+
+class ClienteCrear_Usuario(CreateView):
+    model = Usuario
+    fields = ['telefono','pais','ciudad','provincia','codigo_postal','direccion']
+    success_url = '/usuario/nuevocliente/2'
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.save()
+        
+        return redirect('/usuario/nuevocliente/2')  
+
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = ['bio',]
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': '4'})
+        }
+
+class ClienteCrear_Cliente(CreateView):
+    model = Cliente
+    form_class=ClienteForm
+#    fields = ['alias_empresa','bio']
+    success_url = '/thanks/'
+    
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.usuario = Usuario.objects.filter(user_id=self.request.user.id)[0]
+        instance.save()
+        
+        return redirect('/thanks')

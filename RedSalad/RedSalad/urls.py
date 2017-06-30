@@ -32,14 +32,14 @@ urlpatterns = [
 
 #usuarios
 urlpatterns+= [
+    #productor
     url(r'usuario/nuevoproductor$', usuarios.views.ProductorCrear_Usuario.as_view(), name='productor_crear_usuario'),
     url(r'usuario/nuevoproductor/2$', usuarios.views.ProductorCrear_Productor.as_view(), name='productor_crear_productor'),
-
-    #url(r'usuario/nuevocliente', usuarios.views.nuevo_cliente, name='nuevo_cliente'),
-
     url(r'usuario/miperfilproductor/(?P<pk>[0-9]+)/$', usuarios.views.PerfilProductorView.as_view(), name='productor_perfil'),
-    
-    
+    #cliente
+    url(r'usuario/nuevocliente$', usuarios.views.ClienteCrear_Usuario.as_view(), name='cliente_crear_usuario'),
+    url(r'usuario/nuevocliente/2$', usuarios.views.ClienteCrear_Cliente.as_view(), name='cliente_crear_cliente'),
+    url(r'usuario/miperfilcliente/(?P<pk>[0-9]+)/$', usuarios.views.PerfilClienteView.as_view(), name='cliente_perfil'),    
     
     ]
 
